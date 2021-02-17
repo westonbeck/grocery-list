@@ -42,6 +42,11 @@ th, td {
 		</c:forEach>
 	</table>
 	<br>
-	<button type ="submit">Reset</button>
+		
+	<form action="http://localhost:8080/main">
+		<button type ="submit" id="resetButton">Reset</button>
+	</form>
 </body>
 </html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/list.js" type="text/javascript"></script>

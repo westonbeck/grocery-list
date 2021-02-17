@@ -1,11 +1,20 @@
 //On load
 var xhr = new XMLHttpRequest();
 var allItems = this.getAllItems();
+var itemCheckboxes =[];
+var itemEditButtons = [];
+var itemDeleteButtons = [];
 var allMeals = this.getAllMeals();
+var mealCheckboxes = [];
+var mealEditButtons = [];
+var mealDeleteButtons = [];
 this.tableLoader(allItems, "mainItemTable");
 this.tableLoader(allMeals, "mainMealTable");
 
-document.getElementById('generateList').addEventListener("click", sendSelectedItems);
+document.getElementById('generateList').addEventListener("click", () =>{
+	sendSelectedItems();
+	sendSelectedMeals();
+});
 
 //Functions
 function getAllItems(){
@@ -24,29 +33,54 @@ function getAllMeals(){
 	return meals;
 }
 
-function tableLoader(data,selectId){
-	var table = document.getElementById(selectId);
+function tableLoader(data,tableId){
+	var table = document.getElementById(tableId);
 	for(var i = 0; i < data.length; i++){
 		var newRow = table.insertRow(i+1)
-		var itemName = newRow.insertCell(0);
-		var itemDescription = newRow.insertCell(1);
+		var name = newRow.insertCell(0);
+		var description = newRow.insertCell(1);
 		var addToList = newRow.insertCell(2);
 		var action = newRow.insertCell(3);
-		itemName.innerHTML = data[i].name;
-		itemDescription.innerHTML = data[i].description;
-		addToList.innerHTML = '<input type="checkbox" id="checkbox-'+selectId+i+'">';
-		action.innerHTML = '<button type="button">Edit</button> <button type="button">Delete</button>';
+		name.innerHTML = data[i].name;
+		description.innerHTML = data[i].description;
+		if(tableId == "mainItemTable"){
+			itemCheckboxes.push('<input type="checkbox" id="itemCheckbox'+i+'">');
+			itemEditButtons.push('<button type="button" id="itemEditButton'+i+'">Edit</button>');
+			itemDeleteButtons.push('<button type="button" id="itemDeleteButton'+i+'">Delete</button>');
+			addToList.innerHTML = itemCheckboxes[i];
+			action.innerHTML = itemEditButtons[i] + ' ' + itemDeleteButtons[i];
+		}
+		else if(tableId == "mainMealTable"){
+			mealCheckboxes.push('<input type="checkbox" id="mealCheckbox'+i+'">');
+			mealEditButtons.push('<button type="button" id="mealEditButton'+i+'">Edit</button>');
+			mealDeleteButtons.push('<button type="button" id="mealDeleteButton'+i+'">Delete</button>');
+			addToList.innerHTML = mealCheckboxes[i];
+			action.innerHTML = mealEditButtons[i] + ' ' + mealDeleteButtons[i];
+		}
 	}
 }
 
 function sendSelectedItems(){
-	var table = document.getElementById("mainItemTable");
-	var checkboxPrefix = 'checkbox-mainItemTable';
+	var checkboxPrefix = 'itemCheckbox';
 	var endpointPrefix = 'http://localhost:8080/list/items?item_id='
-	for(var n = 1; n < table.rows.length; n++){
-		var checkbox = document.getElementById(checkboxPrefix+(n-1));
-		var selectedItemId = allItems[n-1].id;
+	for(var n = 0; n < itemCheckboxes.length; n++){
+		var checkbox = document.getElementById(checkboxPrefix+(n));
+		var selectedItemId = allItems[n].id;
 		var url = endpointPrefix+selectedItemId;
+		if(checkbox.checked == true){
+			xhr.open("POST", url, false);
+			xhr.send(null);
+		}
+	}
+}
+
+function sendSelectedMeals(){
+	var checkboxPrefix = 'mealCheckbox';
+	var endpointPrefix = 'http://localhost:8080/list/?meal_id='
+	for(var n = 0; n < mealCheckboxes.length; n++){
+		var checkbox = document.getElementById(checkboxPrefix+(n));
+		var selectedMealId = allMeals[n].id;
+		var url = endpointPrefix+selectedMealId;
 		if(checkbox.checked == true){
 			xhr.open("POST", url, false);
 			xhr.send(null);
