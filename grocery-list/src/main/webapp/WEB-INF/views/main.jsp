@@ -26,6 +26,46 @@
 		  overflow:auto;  
 		  margin-top:20px;
 		}
+		body {font-family: Arial, Helvetica, sans-serif;}
+			
+		/* The Modal (background) */
+		.modal {
+		  display: none; /* Hidden by default */
+		  position: fixed; /* Stay in place */
+		  z-index: 1; /* Sit on top */
+		  padding-top: 100px; /* Location of the box */
+		  left: 0;
+		  top: 0;
+		  width: 100%; /* Full width */
+		  height: 100%; /* Full height */
+		  overflow: auto; /* Enable scroll if needed */
+		  background-color: rgb(0,0,0); /* Fallback color */
+		  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+		}
+		
+		/* Modal Content */
+		.modal-content {
+		  background-color: #fefefe;
+		  margin: auto;
+		  padding: 20px;
+		  border: 1px solid #888;
+		  width: 30%;
+		}
+		
+		/* The Close Button */
+		.close {
+		  color: #aaaaaa;
+		  float: right;
+		  font-size: 28px;
+		  font-weight: bold;
+		}
+		
+		.close:hover,
+		.close:focus {
+		  color: #000;
+		  text-decoration: none;
+		  cursor: pointer;
+		}
 	</style>
 		<meta charset="ISO-8859-1">
 		<title>Grocery list</title>
@@ -43,16 +83,38 @@
 					</tr>
 			</table>
 		</div><br>
+		<button id="addNewItemButton">Add New Item</button><br><br>
 		
-		<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-		<form id="addItemForm" action="/items" method="post" target="dummyframe" onsubmit="setTimeout(function(){window.location.reload();},10);">
-			<p>Add New Item</p>
-			<label for = "name">Name:</label><br>
-			<input type="text" id="name" name="name"><br>
-			<label for="description">Description:</label><br>
-			<textarea name="description" form="addItemForm"></textarea><br>
-			<input type = "submit" value="Add Item">
-		</form><br><br>
+		<div id="editItemModal" class="modal">
+		  <!-- Modal content -->
+		  <div class="modal-content">
+		    <span class="close">&times;</span>
+				<form id="editItemForm">
+					<p><b>Edit Item</b></p>
+					<label for = "name">Name:</label><br>
+					<input type="text" id="editItemName" name="name" size="40"><br><br>
+					<label for="description">Description:</label><br>
+					<textarea name="description" id="editItemDescription" form="editItemForm" rows="8" cols="70"></textarea><br><br>
+					<input type = "submit" id="editItemSubmit" value="Submit">
+				</form>
+		  </div>
+		</div>
+		
+		<div id="addItemModal" class="modal">
+		  <!-- Modal content -->
+		  <div class="modal-content">
+		    <span class="close">&times;</span>
+		    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+				<form id="addItemForm" action="/items" method="post" target="dummyframe" onsubmit="setTimeout(function(){window.location.reload();},10);">
+					<p><b>Add New Item</b></p>
+					<label for = "name">Name:</label><br>
+					<input type="text" id="name" name="name" size="40"><br><br>
+					<label for="description">Description:</label><br>
+					<textarea name="description" form="addItemForm" rows="8" cols="70"></textarea><br><br>
+					<input type = "submit" value="Add Item">
+				</form>
+		  </div>
+		</div>
 		
 		<h1>Meals</h1>
 		<div id="table-scroll">
@@ -65,16 +127,23 @@
 					</tr>
 			</table>
 		</div><br>
+		<button id="addNewMealButton">Add New Meal</button><br><br>
 	
-		<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-		<form id="addMealForm" action="/meals" method="post" target="dummyframe" onsubmit="setTimeout(function(){window.location.reload();},10);">
-			<p>Add New Meal</p>
-			<label for = "name">Name:</label><br>
-			<input type="text" id="name" name="name"><br>
-			<label for="description">Description:</label><br>
-			<textarea name="description" form="addMealForm"></textarea><br>
-			<input type = "submit" value="Add Meal">
-		</form><br><br>
+		<div id="addMealModal" class="modal">
+		  <!-- Modal content -->
+		  <div class="modal-content">
+		    <span class="close">&times;</span>
+		    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+				<form id="addMealForm" action="/meals" method="post" target="dummyframe" onsubmit="setTimeout(function(){window.location.reload();},10);">
+					<p><b>Add New Meal</b></p>
+					<label for = "name">Name:</label><br>
+					<input type="text" id="name" name="name" size="40"><br><br>
+					<label for="description">Description:</label><br>
+					<textarea name="description" form="addMealForm" rows="8" cols="70"></textarea><br><br>
+					<input type = "submit" value="Add Meal">
+				</form>
+		  </div>
+		</div>
 	
 		<form action = "http://localhost:8080/main/list">
 			<button type ="submit" id="generateList">Generate Shopping List</button>

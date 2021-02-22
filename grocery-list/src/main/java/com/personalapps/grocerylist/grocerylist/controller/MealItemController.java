@@ -32,5 +32,9 @@ public class MealItemController {
 		mealItemDao.deleteByIds(mealId, itemId);
 	}
 	
+	@DeleteMapping(path = "/meals/{mealId}/items/")
+	public void deleteAllMealItems(@PathVariable("mealId") int mealId) {
+		mealItemDao.deleteAllMealItems(mealId);
+	}
 	
 }

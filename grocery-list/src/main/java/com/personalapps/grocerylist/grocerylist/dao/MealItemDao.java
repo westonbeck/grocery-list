@@ -41,4 +41,9 @@ public class MealItemDao {
 		jdbc.update(deleteQuery, mealId, itemId);
 	}
 	
+	public void deleteAllMealItems(int mealId) {
+		String deleteQuery = "delete from meal_item where meal_id = ?";
+		jdbc.update(deleteQuery, mealId);
+	}
+	
 }

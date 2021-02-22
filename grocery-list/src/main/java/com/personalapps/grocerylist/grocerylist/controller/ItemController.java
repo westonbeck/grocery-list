@@ -45,5 +45,4 @@ public class ItemController {
 	public void deleteItem(@PathVariable int id) {
 		this.itemDao.deleteById(id);
 	}
-	
 }
