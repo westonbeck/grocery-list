@@ -26,6 +26,21 @@
 		  overflow:auto;  
 		  margin-top:20px;
 		}
+		#allItems {
+		  float: left;
+		  padding: 35px;
+		}
+		#allMeals {
+		  padding: 35px;
+		  border: 1px;
+		}
+		#generateListForm{
+		  float: right;
+		  padding: 20px;
+		}
+		#generateList{
+		  height: 30px
+		}
 		body {font-family: Arial, Helvetica, sans-serif;}
 			
 		/* The Modal (background) */
@@ -72,19 +87,22 @@
 	</head>
 	
 	<body>
-		<h1>Items</h1>
-		<div id="table-scroll">
-			<table style="width:600px" id="mainItemTable">
-					<tr>
-						<th>Item Name</th>
-						<th>Item Description</th>
-						<th>Add To List</th>
-						<th>Action</th>
-					</tr>
-			</table>
-		</div><br>
-		<button id="addNewItemButton">Add New Item</button><br><br>
-		
+	
+		<div id="allItems">
+			<h1>Items</h1>
+			<div id="table-scroll">
+				<table style="width:600px" id="mainItemTable">
+						<tr>
+							<th>Item Name</th>
+							<th>Item Description</th>
+							<th>Add To List</th>
+							<th>Action</th>
+						</tr>
+				</table>
+			</div><br>
+			<button id="addNewItemButton">Add New Item</button><br><br>
+		</div>
+			
 		<div id="editItemModal" class="modal">
 		  <!-- Modal content -->
 		  <div class="modal-content">
@@ -108,7 +126,7 @@
 				<form id="addItemForm" action="/items" method="post" target="dummyframe" onsubmit="setTimeout(function(){window.location.reload();},10);">
 					<p><b>Add New Item</b></p>
 					<label for = "name">Name:</label><br>
-					<input type="text" id="name" name="name" size="40"><br><br>
+					<input type="text" id="addItemName" name="name" size="40"><br><br>
 					<label for="description">Description:</label><br>
 					<textarea name="description" form="addItemForm" rows="8" cols="70"></textarea><br><br>
 					<input type = "submit" value="Add Item">
@@ -116,18 +134,21 @@
 		  </div>
 		</div>
 		
-		<h1>Meals</h1>
-		<div id="table-scroll">
-			<table style="width:600px" id="mainMealTable">
-					<tr>
-						<th>Meal Name</th>
-						<th>Meal Description</th>
-						<th>Add To List</th>
-						<th>Action</th>
-					</tr>
-			</table>
-		</div><br>
-		<button id="addNewMealButton">Add New Meal</button><br><br>
+		<div id="allMeals">
+			<h1>Meals</h1>
+			<div id="table-scroll">	
+				<table style="width:600px" id="mainMealTable">
+						<tr>
+							<th>Meal Name</th>
+							<th>Meal Description</th>
+							<th>Add To List</th>
+							<th>Action</th>
+						</tr>
+				</table>
+			</div><br>
+			<button id="addNewMealButton">Add New Meal</button><br><br>
+		</div>
+
 	
 		<div id="addMealModal" class="modal">
 		  <!-- Modal content -->
@@ -137,7 +158,7 @@
 				<form id="addMealForm" action="/meals" method="post" target="dummyframe" onsubmit="setTimeout(function(){window.location.reload();},10);">
 					<p><b>Add New Meal</b></p>
 					<label for = "name">Name:</label><br>
-					<input type="text" id="name" name="name" size="40"><br><br>
+					<input type="text" id="addMealName" name="name" size="40"><br><br>
 					<label for="description">Description:</label><br>
 					<textarea name="description" form="addMealForm" rows="8" cols="70"></textarea><br><br>
 					<input type = "submit" value="Add Meal">
@@ -145,7 +166,7 @@
 		  </div>
 		</div>
 	
-		<form action = "http://localhost:8080/main/list">
+		<form action = "http://localhost:8080/main/list" id="generateListForm">
 			<button type ="submit" id="generateList">Generate Shopping List</button>
 		</form>
 		

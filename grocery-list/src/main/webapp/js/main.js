@@ -55,13 +55,13 @@ function tableLoader(data,tableId){
 		name.innerHTML = data[i].name;
 		description.innerHTML = data[i].description;
 		if(tableId == "mainItemTable"){
-			addToList.innerHTML = '<input type="checkbox" class="itemCheckbox" id="itemCheckbox'+data[i].id+'">';
+			addToList.innerHTML = '<input type="checkbox" class="itemCheckbox" id="itemCheckbox'+i+'">';
 			action.innerHTML = '<button type="button" onclick="editItemModal(this.id.substr(14))" class="itemEditButton" id="itemEditButton'+data[i].id+
 			'">Edit</button>  <button type="button" onclick="deleteItem(this.id.substr(16))" class="itemDeleteButton" id="itemDeleteButton'+data[i].id+
 			'">Delete</button>';
 		}
 		else if(tableId == "mainMealTable"){
-			addToList.innerHTML = '<input type="checkbox" class="mealCheckbox" id="mealCheckbox'+data[i].id+'">';
+			addToList.innerHTML = '<input type="checkbox" class="mealCheckbox" id="mealCheckbox'+i.id+'">';
 			action.innerHTML = '<button type="button" class="mealEditButton" id="mealEditButton'+data[i].id+
 			'">Edit</button> <button type="button" onclick="deleteMeal(this.id.substr(16))" class="mealDeleteButton" id="mealDeleteButton'+data[i].id+'">Delete</button>';
 		}
@@ -108,7 +108,7 @@ function deleteMeal(mealId){
 function sendSelectedItems(){
 	var checkboxPrefix = 'itemCheckbox';
 	var endpointPrefix = 'http://localhost:8080/list/items?item_id='
-	for(var n = 0; n < itemCheckboxes.length; n++){
+	for(var n = 0; n < allItems.length; n++){
 		var checkbox = document.getElementById(checkboxPrefix+(n));
 		var selectedItemId = allItems[n].id;
 		var url = endpointPrefix+selectedItemId;
@@ -122,7 +122,7 @@ function sendSelectedItems(){
 function sendSelectedMeals(){
 	var checkboxPrefix = 'mealCheckbox';
 	var endpointPrefix = 'http://localhost:8080/list/?meal_id='
-	for(var n = 0; n < mealCheckboxes.length; n++){
+	for(var n = 0; n < allMeals.length; n++){
 		var checkbox = document.getElementById(checkboxPrefix+(n));
 		var selectedMealId = allMeals[n].id;
 		var url = endpointPrefix+selectedMealId;
