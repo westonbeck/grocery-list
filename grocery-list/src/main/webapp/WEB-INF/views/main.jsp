@@ -30,6 +30,15 @@
 		  float: left;
 		  padding: 35px;
 		}
+		#allList{
+		  padding: 35px;
+		}
+		#currentItemsList{
+		  width: 600px;
+		  height: 750px;
+		  font-size: 20px;
+		  font-family: arial, sans-serif;
+		}
 		#allMeals {
 		  padding: 35px;
 		  border: 1px;
@@ -164,6 +173,14 @@
 					<input type = "submit" value="Add Meal">
 				</form>
 		  </div>
+		</div>
+		
+		<div id="allList">
+			<h1>Current List</h1>
+			<div id="select-scroll">
+				<select id="currentItemsList" multiple></select>
+			</div><br>
+			<button type="button" id="resetList">Reset List</button>
 		</div>
 	
 		<form action = "http://localhost:8080/main/list" id="generateListForm">

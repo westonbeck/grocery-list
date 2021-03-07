@@ -1,23 +1,19 @@
 //On load
 var xhr = new XMLHttpRequest();
 var allItems = this.getAllItems();
-var itemCheckboxes =[];
 var itemEditButtons = [];
 var itemDeleteButtons = [];
 var allMeals = this.getAllMeals();
-var mealCheckboxes = [];
 var mealEditButtons = [];
 var mealDeleteButtons = [];
+var allListItems = this.getAllListItems();
 
 // Load page
 this.tableLoader(allItems, "mainItemTable");
 
 this.tableLoader(allMeals, "mainMealTable");
-	
-document.getElementById('generateList').addEventListener("click", () =>{
-	sendSelectedItems();
-	sendSelectedMeals();
-});
+
+this.listLoader();
 
 document.getElementById('addNewItemButton').addEventListener("click", () =>{
 	modalHandler("addItemModal");
@@ -25,6 +21,12 @@ document.getElementById('addNewItemButton').addEventListener("click", () =>{
 
 document.getElementById('addNewMealButton').addEventListener("click", () =>{
 	modalHandler("addMealModal");
+})
+
+document.getElementById('resetList').addEventListener("click", () =>{
+	this.xhr.open("DELETE", 'http://localhost:8080/list',false);
+	this.xhr.send(null);
+	location.reload();
 })
 
 //Functions
@@ -44,6 +46,14 @@ function getAllMeals(){
 	return meals;
 }
 
+function getAllListItems(){
+	this.xhr.open("GET", 'http://localhost:8080/list',false);
+	this.xhr.send(null);
+	var list = JSON.parse(this.xhr.responseText);
+	
+	return list;
+}
+
 function tableLoader(data,tableId){
 	var table = document.getElementById(tableId);
 	for(var i = 0; i < data.length; i++){
@@ -55,21 +65,41 @@ function tableLoader(data,tableId){
 		name.innerHTML = data[i].name;
 		description.innerHTML = data[i].description;
 		if(tableId == "mainItemTable"){
-			addToList.innerHTML = '<input type="checkbox" class="itemCheckbox" id="itemCheckbox'+i+'">';
+			addToList.innerHTML = '<button type="button" onclick="addItemToList(this.id.substr(19))" class="addItemToListButton" id="itemAddToListButton'+data[i].id+'">Add To List</button>';
 			action.innerHTML = '<button type="button" onclick="editItemModal(this.id.substr(14))" class="itemEditButton" id="itemEditButton'+data[i].id+
 			'">Edit</button>  <button type="button" onclick="deleteItem(this.id.substr(16))" class="itemDeleteButton" id="itemDeleteButton'+data[i].id+
 			'">Delete</button>';
 		}
 		else if(tableId == "mainMealTable"){
-			addToList.innerHTML = '<input type="checkbox" class="mealCheckbox" id="mealCheckbox'+i.id+'">';
+			addToList.innerHTML = '<button type="button" onclick="addMealItemsToList(this.id.substr(23))" class="addMealItemToListButton" id="mealItemAddToListButton'+data[i].id+'">Add To List</button>';
 			action.innerHTML = '<button type="button" class="mealEditButton" id="mealEditButton'+data[i].id+
 			'">Edit</button> <button type="button" onclick="deleteMeal(this.id.substr(16))" class="mealDeleteButton" id="mealDeleteButton'+data[i].id+'">Delete</button>';
 		}
 	}
 }
 
+function listLoader(){
+	var list = document.getElementById("currentItemsList");
+	for(var i = 0; i < allListItems.length; i++){
+		var newElement = new Option(allListItems[i].name);
+		list.add(newElement);
+	}
+}
+
 function showId(elementId){
 	alert(elementId.substr(16));
+}
+
+function addItemToList(itemId){
+	xhr.open("POST", 'http://localhost:8080/list/items?item_id='+itemId, false);
+	xhr.send(null);
+	location.reload();
+}
+
+function addMealItemsToList(mealId){
+	xhr.open("POST", 'http://localhost:8080/list/?meal_id='+mealId, false);
+	xhr.send(null);
+	location.reload();
 }
 
 function editItemModal(itemId){
@@ -103,34 +133,6 @@ function deleteMeal(mealId){
 	xhr.open("DELETE", 'http://localhost:8080/meals/'+mealId, false);
 	xhr.send(null);
 	location.reload();
-}
-
-function sendSelectedItems(){
-	var checkboxPrefix = 'itemCheckbox';
-	var endpointPrefix = 'http://localhost:8080/list/items?item_id='
-	for(var n = 0; n < allItems.length; n++){
-		var checkbox = document.getElementById(checkboxPrefix+(n));
-		var selectedItemId = allItems[n].id;
-		var url = endpointPrefix+selectedItemId;
-		if(checkbox.checked == true){
-			xhr.open("POST", url, false);
-			xhr.send(null);
-		}
-	}
-}
-
-function sendSelectedMeals(){
-	var checkboxPrefix = 'mealCheckbox';
-	var endpointPrefix = 'http://localhost:8080/list/?meal_id='
-	for(var n = 0; n < allMeals.length; n++){
-		var checkbox = document.getElementById(checkboxPrefix+(n));
-		var selectedMealId = allMeals[n].id;
-		var url = endpointPrefix+selectedMealId;
-		if(checkbox.checked == true){
-			xhr.open("POST", url, false);
-			xhr.send(null);
-		}
-	}
 }
 
 function modalHandler(modalId){
