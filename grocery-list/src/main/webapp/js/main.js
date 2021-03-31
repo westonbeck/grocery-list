@@ -20,7 +20,7 @@ document.getElementById('addNewItemButton').addEventListener("click", () =>{
 })
 
 document.getElementById('addNewMealButton').addEventListener("click", () =>{
-	modalHandler("addMealModal");
+	addMealModal();
 })
 
 document.getElementById('resetList').addEventListener("click", () =>{
@@ -120,6 +120,26 @@ function editItemModal(itemId){
 		location.reload();
 	})
 	
+}
+
+function addMealModal(){
+	xhr.open("GET", 'http://localhost:8080/items', false);
+	xhr.send(null);
+	var availItems = JSON.parse(xhr.responseText);
+	var availItemsList = document.getElementById("addMealAvailItems");
+	var selectItems = [];
+	var selectItemsList = document.getElementById("addMealSelectItems");
+	
+	for(var i = 0; i < availItems.length; i++){
+		var newElement = new Option(availItems[i].name);
+		availItemsList.add(newElement);
+	}
+	
+	modalHandler("addMealModal");
+	
+	//On load: show all available items on the left. Create two temporary arrays: available items and added items
+	//If the user adds an item to the meal, remove from the available items and move to the added items
+	//Once the user submits the meal, save the added items in the meal_item table
 }
 
 function deleteItem(itemId){

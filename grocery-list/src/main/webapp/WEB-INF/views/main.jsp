@@ -170,6 +170,14 @@
 					<input type="text" id="addMealName" name="name" size="40"><br><br>
 					<label for="description">Description:</label><br>
 					<textarea name="description" form="addMealForm" rows="8" cols="70"></textarea><br><br>
+					<div style="float:left">
+						<p><b>Available items</b></p>
+						<select id="addMealAvailItems" multiple style="float: left; height: 200px"></select>
+					</div>
+					<div style="float: right">
+						<p><b>Selected items</b></p>
+						<select id="addMealSelectItems" multiple style="float: right; height: 200px"></select>
+					</div>
 					<input type = "submit" value="Add Meal">
 				</form>
 		  </div>
